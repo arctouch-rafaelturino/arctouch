@@ -1,30 +1,45 @@
 import requests
 import json
-from flask import Flask
+import TMDBapi
+from flask import Flask, request
 
 app = Flask(__name__)
 
-@app.route("/")
-def listUpcomingMovies():
-    movies = getUpcomingMovies()
+@app.route("/", methods=['GET'], defaults={'page': 1})
+def getUpcomingMovies(page):
+    page = request.args.get('page')
+    movies = listUpcomingMovies(page)
     json_string = json.dumps([movie.__dict__ for movie in movies])
     return json_string
 
-def getUpcomingMovies():
+@app.route("/search", methods=['GET'])
+def search():
+    query = request.args.get('query')
+    movies = listSearchResults(query)
+    json_string = json.dumps([movie.__dict__ for movie in movies])
+    return json_string
+
+
+def listUpcomingMovies(page):
     movies = []
-    allGenres = getGenres()
-    apiResponse = requestMoviesAPI()
+    allGenres = TMDBapi.getAllGenres()
+    apiResponse = TMDBapi.getUpcomingMovies(page)
     for movie in apiResponse:
         image = getMovieImage(movie)
         genres = getMovieGenres(allGenres, movie)
-        print(movie)
         movies.append(Movie(movie['title'], image, genres, movie['overview'], movie['release_date']))
     return movies
 
-def getGenres():
-    r = requests.get('https://api.themoviedb.org/3/genre/movie/list?api_key=1f54bd990f1cdfb230adb312546d765d&language=en-US')
-    return r.json()['genres']
-    
+def listSearchResults(query):
+    movies = []
+    allGenres = TMDBapi.getAllGenres()
+    apiResponse = TMDBapi.getSearchMovies(query)
+    for movie in apiResponse:
+        image = getMovieImage(movie)
+        genres = getMovieGenres(allGenres, movie)
+        movies.append(Movie(movie['title'], image, genres, movie['overview'], movie['release_date']))
+    return movies
+
 def getMovieGenres(genres, movie):
     movieGenres = []
     for genre_id in movie['genre_ids']:
@@ -42,9 +57,6 @@ def getMovieImage(movie):
         return movie['poster_path']
     return movie['backdrop_path']
 
-def requestMoviesAPI():
-    r = requests.get('https://api.themoviedb.org/3/movie/upcoming?api_key=1f54bd990f1cdfb230adb312546d765d&language=en-US&page=1')
-    return r.json()['results']
 
 class Movie:
   def __init__(self, title, image, genres, overview, release_date):
