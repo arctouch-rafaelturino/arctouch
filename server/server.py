@@ -2,8 +2,10 @@ import requests
 import json
 import TMDBapi
 from flask import Flask, request
+from flask_cors import CORS
 
 app = Flask(__name__)
+cors = CORS(app)
 
 @app.route("/", methods=['GET'], defaults={'page': 1})
 def getUpcomingMovies(page):
@@ -27,7 +29,7 @@ def listUpcomingMovies(page):
     for movie in apiResponse:
         image = getMovieImage(movie)
         genres = getMovieGenres(allGenres, movie)
-        movies.append(Movie(movie['title'], image, genres, movie['overview'], movie['release_date']))
+        movies.append(Movie(movie['id'], movie['title'], image, genres, movie['overview'], movie['release_date']))
     return movies
 
 def listSearchResults(query):
@@ -37,7 +39,7 @@ def listSearchResults(query):
     for movie in apiResponse:
         image = getMovieImage(movie)
         genres = getMovieGenres(allGenres, movie)
-        movies.append(Movie(movie['title'], image, genres, movie['overview'], movie['release_date']))
+        movies.append(Movie(movie['id'], movie['title'], image, genres, movie['overview'], movie['release_date']))
     return movies
 
 def getMovieGenres(genres, movie):
@@ -59,7 +61,8 @@ def getMovieImage(movie):
 
 
 class Movie:
-  def __init__(self, title, image, genres, overview, release_date):
+  def __init__(self, id, title, image, genres, overview, release_date):
+    self.id = id
     self.title = title
     self.image = image
     self.genres = genres
