@@ -12,3 +12,8 @@ def getUpcomingMovies(page):
 def getSearchMovies(query):
     r = requests.get(f'https://api.themoviedb.org/3/search/movie?api_key={key.api_key}&language=en-US&page=1&query={query}')
     return r.json()['results']
+
+def getMovieDetails(id):
+    print(id)
+    r = requests.get(f'https://api.themoviedb.org/3/movie/{id}?api_key={key.api_key}&language=en-US')
+    return r.json()

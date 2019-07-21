@@ -7,20 +7,26 @@ from flask_cors import CORS
 app = Flask(__name__)
 cors = CORS(app)
 
-@app.route("/", methods=['GET'], defaults={'page': 1})
+@app.route("/upcomingMovies", methods=['GET'], defaults={'page': 1})
 def getUpcomingMovies(page):
     page = request.args.get('page')
     movies = listUpcomingMovies(page)
-    json_string = json.dumps([movie.__dict__ for movie in movies])
-    return json_string
+    jsonString = json.dumps([movie.__dict__ for movie in movies])
+    return jsonString
 
 @app.route("/search", methods=['GET'])
 def search():
     query = request.args.get('query')
     movies = listSearchResults(query)
-    json_string = json.dumps([movie.__dict__ for movie in movies])
-    return json_string
+    jsonString = json.dumps([movie.__dict__ for movie in movies])
+    return jsonString
 
+@app.route("/movieDetails", methods=['GET'])
+def getDetails():
+    id = request.args.get('id')
+    movie = getMovieDetails(id)
+    jsonString = json.dumps(movie.__dict__)
+    return jsonString
 
 def listUpcomingMovies(page):
     movies = []
@@ -29,7 +35,7 @@ def listUpcomingMovies(page):
     for movie in apiResponse:
         image = getMovieImage(movie)
         genres = getMovieGenres(allGenres, movie)
-        movies.append(Movie(movie['id'], movie['title'], image, genres, movie['overview'], movie['release_date']))
+        movies.append(Movie(movie['id'], movie['title'], image, genres, movie['release_date']))
     return movies
 
 def listSearchResults(query):
@@ -39,8 +45,13 @@ def listSearchResults(query):
     for movie in apiResponse:
         image = getMovieImage(movie)
         genres = getMovieGenres(allGenres, movie)
-        movies.append(Movie(movie['id'], movie['title'], image, genres, movie['overview'], movie['release_date']))
+        movies.append(Movie(movie['id'], movie['title'], image, genres, movie['release_date']))
     return movies
+
+def getMovieDetails(id):
+    apiResponse = TMDBapi.getMovieDetails(id)
+    image = getMovieImage(apiResponse)
+    return Movie(apiResponse['id'], apiResponse['title'], image, apiResponse['genres'], apiResponse['release_date'], apiResponse['overview'])
 
 def getMovieGenres(genres, movie):
     movieGenres = []
@@ -61,10 +72,10 @@ def getMovieImage(movie):
 
 
 class Movie:
-  def __init__(self, id, title, image, genres, overview, release_date):
+  def __init__(self, id, title, image, genres, release_date, overview = None):
     self.id = id
     self.title = title
     self.image = image
     self.genres = genres
-    self.overview = overview
     self.release_date = release_date
+    self.overview = overview
