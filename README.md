@@ -5,5 +5,5 @@ For example, the search listing and the front page are two different components.
 To run it locally, you have to put you api key in the key.py file.
 
 On the server side, I used `requests`, the almost standard Python requests framework and `json`, the standard Json lib for Python.
-Alongside Vue, I used VueRouter, a router api developed by the same people that maintain Vue itself.
+Alongside Vue, I used `VueRouter`, a router api developed by the same people that maintain Vue itself.
 I tried my best to use as few libraries as possible, as a personal challenge and also to make it easier to judge the quality of the code. 
