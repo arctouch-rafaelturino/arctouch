@@ -1,19 +1,32 @@
 <template>
-  <div class='search-container'>
-    <input class='search-input' type='text' placeholder='Search something..'/>
-    <button class='search-confirm'> Go! </button>
-  </div>
+    <div class='search-container'>  
+        <input v-model='query' class='search-input' type='text' placeholder='Search something..' />
+        <router-link :to="'/search/'+this.query">
+        <button class='search-confirm' @click='search()' :disabled='this.query.length === 0'> Go! </button>
+        </router-link>
+    </div>
 </template>
 
 <script>
 export default {
-  name: 'Search'
+    name: 'SearchBar',
+    data: () => {
+      return {
+        query: ''
+      }
+    },
+    methods: {
+        search: function() {
+          if(this.query) {
+            console.debug(this.query);
+          }
+        }
+    }
 }
 </script>
 
 <style scoped>
 @import url('https://fonts.googleapis.com/css?family=Montserrat:400,700&display=swap');
-
 .search-container {
     margin-top: 5px;
     display: flex;
@@ -39,14 +52,17 @@ export default {
 }
 
 .search-confirm:hover {
-	animation: color_change .5s;
+    animation: color_change .5s;
     background-color: rgb(126, 126, 131);
     color: white;
 }
 
 @keyframes color_change {
-  from {background-color: white;}
-  to {background-color: rgb(126, 126, 131);}
+    from {
+        background-color: white;
+    }
+    to {
+        background-color: rgb(126, 126, 131);
+    }
 }
-
 </style>

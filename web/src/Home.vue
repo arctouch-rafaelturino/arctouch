@@ -1,25 +1,26 @@
 <template>
   <div id="home">
     <div class="banner">
-      <router-link to="/home">
+      <router-link to="/">
       <span class="page-title">my thursday night</span>
       </router-link>
     </div>
-    <Search />
-    <MoviesList/>
+    <SearchBar />
+    <router-view>
+    </router-view>
   </div>
+  
 </template>
 
 <script>
 import VueRouter from 'vue-router';
-import Search from './components/Search.vue'
-import MoviesList from './components/Movies/MoviesList.vue'
+import SearchBar from './components/search-movies/SearchBar.vue'
+
 
 export default {
   name: 'home',
   components: {
-    MoviesList,
-    Search
+    SearchBar
   }
 }
 </script>
@@ -39,6 +40,7 @@ a {
 #app {
   width: 100%;
 }
+
 .banner {
   background-image: linear-gradient(to right, rgb(255,140,50), rgb(250,100,0));
   width: 100%;
