@@ -2,7 +2,7 @@
     <div class='search-container'>  
         <input v-model='query' class='search-input' type='text' placeholder='Search something..' />
         <router-link :to="'/search/'+this.query">
-        <button class='search-confirm' @click='search()' :disabled='this.query.length === 0'> Go! </button>
+        <button class='search-confirm' :disabled='this.query.length === 0'> Go! </button>
         </router-link>
     </div>
 </template>
@@ -14,13 +14,6 @@ export default {
       return {
         query: ''
       }
-    },
-    methods: {
-        search: function() {
-          if(this.query) {
-            console.debug(this.query);
-          }
-        }
     }
 }
 </script>

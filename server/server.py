@@ -69,7 +69,6 @@ def getGenreNameById(genres, id):
     return 'Genre not found'
 
 def getMovieImage(movie):
-    print(movie)
     if('poster_path' in movie):
         return movie['poster_path']
     return movie['backdrop_path']

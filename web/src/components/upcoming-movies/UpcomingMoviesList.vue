@@ -20,7 +20,7 @@ export default {
     },
     methods: {
         requestPageFromServer(page) {
-            let xmlHttp = new XMLHttpRequest();
+            const xmlHttp = new XMLHttpRequest();
             xmlHttp.onreadystatechange = () => {
                 if (xmlHttp.readyState == 4 && xmlHttp.status == 200) {
                     this.consumeData(JSON.parse(xmlHttp.responseText));

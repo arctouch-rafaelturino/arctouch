@@ -54,6 +54,6 @@ a {
 .page-title {
   font-size: 2em;
   color: white;
-
 }
+
 </style>
