@@ -51,7 +51,10 @@ def listSearchResults(query):
 def getMovieDetails(id):
     apiResponse = TMDBapi.getMovieDetails(id)
     image = getMovieImage(apiResponse)
-    return Movie(apiResponse['id'], apiResponse['title'], image, apiResponse['genres'], apiResponse['release_date'], apiResponse['overview'])
+    genres = []
+    for genre in apiResponse['genres']:
+        genres.append(genre['name'])
+    return Movie(apiResponse['id'], apiResponse['title'], image, genres, apiResponse['release_date'], apiResponse['overview'])
 
 def getMovieGenres(genres, movie):
     movieGenres = []
@@ -66,7 +69,8 @@ def getGenreNameById(genres, id):
     return 'Genre not found'
 
 def getMovieImage(movie):
-    if('poster' in movie):
+    print(movie)
+    if('poster_path' in movie):
         return movie['poster_path']
     return movie['backdrop_path']
 
