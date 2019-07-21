@@ -74,7 +74,6 @@ def getMovieImage(movie):
         return movie['poster_path']
     return movie['backdrop_path']
 
-
 class Movie:
   def __init__(self, id, title, image, genres, release_date, overview = None):
     self.id = id

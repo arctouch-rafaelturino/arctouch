@@ -14,6 +14,5 @@ def getSearchMovies(query):
     return r.json()['results']
 
 def getMovieDetails(id):
-    print(id)
     r = requests.get(f'https://api.themoviedb.org/3/movie/{id}?api_key={key.api_key}&language=en-US')
     return r.json()
