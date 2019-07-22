@@ -19,7 +19,7 @@ export default {
   methods: {
     consumeData: function(movie) {
         movie.id = movie.id.toString();
-        movie.image = `http://image.tmdb.org/t/p/w780/${movie.image}`
+        movie.image = `https://image.tmdb.org/t/p/w780/${movie.image}`
         movie.genres = movie.genres.slice(0, 3).join(', ');
         this.movie = movie;
     }
