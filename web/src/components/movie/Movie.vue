@@ -20,7 +20,6 @@ export default {
     consumeData: function(movie) {
         movie.id = movie.id.toString();
         movie.image = `http://image.tmdb.org/t/p/w780/${movie.image}`
-        movie.release_date = movie.release_date;
         movie.genres = movie.genres.slice(0, 3).join(', ');
         this.movie = movie;
     }
@@ -33,7 +32,7 @@ export default {
             this.consumeData(JSON.parse(xmlHttp.responseText));
         }
     }
-    xmlHttp.open("GET", `http://127.0.0.1:5000/movieDetails?id=${this.$route.params.id}`, true); 
+    xmlHttp.open("GET", `https://immense-brook-71998.herokuapp.com/movieDetails?id=${this.$route.params.id}`, true); 
     xmlHttp.send();
   }
 }
