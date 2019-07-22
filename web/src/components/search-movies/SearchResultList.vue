@@ -25,7 +25,7 @@ export default {
                     this.consumeData(JSON.parse(xmlHttp.responseText));
                 }
             }
-            xmlHttp.open("GET", `http://127.0.0.1:5000/search?query=${query}`, true);
+            xmlHttp.open("GET", `https://immense-brook-71998.herokuapp.com/search?query=${query}`, true);
             xmlHttp.send();
         },
         consumeData: function(movies) {

@@ -1,6 +1,6 @@
 <template>
     <div class='movies-container'>
-        <MovieCard v-for='movie in movies' :movie='movie' />
+        <MovieCard v-for='movie in movies' v-bind='movie' :movie='movie' />
     </div>
 </template>
 
@@ -26,13 +26,13 @@ export default {
                     this.consumeData(JSON.parse(xmlHttp.responseText));
                 }
             }
-            xmlHttp.open("GET", `http://127.0.0.1:5000/upcomingMovies?page=${page}`, true);
+            xmlHttp.open("GET", `https://immense-brook-71998.herokuapp.com/upcomingMovies?page=${page}`, true);
             xmlHttp.send();
         },
         consumeData: function(movies) {
             movies.forEach(movie => {
                 movie.id = movie.id.toString();
-                movie.image = `http://image.tmdb.org/t/p/w342/${movie.image}`
+                movie.image = `https://image.tmdb.org/t/p/w342/${movie.image}`
                 movie.release_date = movie.release_date;
             });
             this.movies = [].concat(this.movies, movies);
