@@ -31,7 +31,7 @@ export default {
         consumeData: function(movies) {
             movies.forEach(movie => {
                 movie.id = movie.id.toString();
-                movie.image = `http://image.tmdb.org/t/p/w342/${movie.image}`
+                movie.image = `https://image.tmdb.org/t/p/w342/${movie.image}`
                 movie.release_date = movie.release_date;
             });
             this.movies = [].concat(this.movies, movies);
